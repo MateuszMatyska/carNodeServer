@@ -52,7 +52,7 @@ router.put('/editCar', async (req, res) => {
         const bodyId = req.body.id;
         const car = req.body.car;
 
-        const updatedCar = await Car.updateOne(
+        const updatedCar = await Car.findOneAndUpdate(
             {id: bodyId},
             {$set: {
                 name: car.name,
