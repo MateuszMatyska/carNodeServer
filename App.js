@@ -8,17 +8,13 @@ const cors = require('cors');
 const users = require('./routes/auth/authRoute');
 const cars = require('./routes/cars/carsRoute');
 
+const authMiddleware = require('./middlewares/authMiddleware');
 
 app.use(cors());
 app.use(bodyParser.json());
 
-// app.use(function (req, res, next) {
-//     console.log('Time:', Date.now())
-//     next()
-// })
-
 app.use('/auth',users);
-app.use('/cars',cars);
+app.use('/cars',authMiddleware,cars);
 
 mongoose.connect(config.dbUrlCars, {useNewUrlParser: true}, () => console.log('connected to DB'));
 

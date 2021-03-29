@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 const User = require("../../models/user");
 const md5 = require("md5");
 
-const generateAccessToken = (username) => (
-    jwt.sign({name: username}, config.secretToken, { expiresIn: '1800s' })
+const generateAccessToken = (username, password) => (
+    jwt.sign({name: username, password: password}, config.secretToken, { expiresIn: '1800s' })
 )
 
 router.post("/register", async (req, res) => {
@@ -14,7 +14,7 @@ router.post("/register", async (req, res) => {
     const user = new User({
       name: req.body.name,
       password: md5(req.body.password),
-      token: generateAccessToken(req.body.name)
+      token: generateAccessToken(req.body.name, md5(req.body.password))
     });
 
     const newUser = await user.save();
@@ -42,7 +42,7 @@ router.post("/login", async (req, res) => {
         { name: user.name, password: user.password },
         {
           $set: {
-            token: generateAccessToken(user.name),
+            token: generateAccessToken(user.name, user.password),
           },
         }
       );
