@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const config = require("../config");
-const authRepo = require("../repositories/authRepo");
+const config = require("../../config");
+const authService = require("../services/authService");
 
 const authMiddleware = (req, res, next) => {
     const token = req.headers['authorization'];
