@@ -36,6 +36,9 @@ module.exports.editCar = async (id, car) => {
         year: car.year,
         color: car.color,
       },
+    },
+    {
+      new: true
     }
   );
 };
